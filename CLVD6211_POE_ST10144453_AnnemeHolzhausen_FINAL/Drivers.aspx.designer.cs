@@ -15,13 +15,31 @@ namespace CLVD6211_POE_ST10144453_AnnemeHolzhausen_FINAL
     {
 
         /// <summary>
+        /// lblDriverInfo control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblDriverInfo;
+
+        /// <summary>
+        /// lblMessage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblMessage;
+
+        /// <summary>
         /// txtDriverID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtDriverID;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText txtDriverID;
 
         /// <summary>
         /// btnSearch control.
@@ -33,22 +51,40 @@ namespace CLVD6211_POE_ST10144453_AnnemeHolzhausen_FINAL
         protected global::System.Web.UI.WebControls.Button btnSearch;
 
         /// <summary>
-        /// btnViewAll control.
+        /// divDriverInfo control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnViewAll;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divDriverInfo;
 
         /// <summary>
-        /// gridDrivers control.
+        /// rptDriverInfo control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gridDrivers;
+        protected global::System.Web.UI.WebControls.Repeater rptDriverInfo;
+
+        /// <summary>
+        /// gridCars control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView gridCars;
+
+        /// <summary>
+        /// lblNoResults control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblNoResults;
 
         /// <summary>
         /// txtNewDriverID control.
@@ -103,5 +139,23 @@ namespace CLVD6211_POE_ST10144453_AnnemeHolzhausen_FINAL
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnSave;
+
+        /// <summary>
+        /// btnUpdate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnUpdate;
+
+        /// <summary>
+        /// btnDelete control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnDelete;
     }
 }

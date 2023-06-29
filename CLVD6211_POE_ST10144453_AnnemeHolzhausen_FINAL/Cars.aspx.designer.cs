@@ -33,6 +33,15 @@ namespace CLVD6211_POE_ST10144453_AnnemeHolzhausen_FINAL
         protected global::System.Web.UI.WebControls.Button btnSearch;
 
         /// <summary>
+        /// tableContainer control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl tableContainer;
+
+        /// <summary>
         /// gridCars control.
         /// </summary>
         /// <remarks>
@@ -40,6 +49,24 @@ namespace CLVD6211_POE_ST10144453_AnnemeHolzhausen_FINAL
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView gridCars;
+
+        /// <summary>
+        /// btnEdit control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnEdit;
+
+        /// <summary>
+        /// btnDelete control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnDelete;
 
         /// <summary>
         /// txtNewCarMake control.
@@ -60,13 +87,13 @@ namespace CLVD6211_POE_ST10144453_AnnemeHolzhausen_FINAL
         protected global::System.Web.UI.WebControls.TextBox txtNewCarModel;
 
         /// <summary>
-        /// TextBox1 control.
+        /// txtNewCarID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBox1;
+        protected global::System.Web.UI.WebControls.TextBox txtNewCarID;
 
         /// <summary>
         /// btnSaveNewCar control.
@@ -85,5 +112,50 @@ namespace CLVD6211_POE_ST10144453_AnnemeHolzhausen_FINAL
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnViewAllCars;
+
+        /// <summary>
+        /// txtEditCarID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtEditCarID;
+
+        /// <summary>
+        /// txtEditCarMake control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtEditCarMake;
+
+        /// <summary>
+        /// txtEditCarModel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtEditCarModel;
+
+        /// <summary>
+        /// btnSaveEditCar control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnSaveEditCar;
+
+        /// <summary>
+        /// btnReturnToSearchResults control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnReturnToSearchResults;
     }
 }

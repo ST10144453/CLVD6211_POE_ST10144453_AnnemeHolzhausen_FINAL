@@ -85,33 +85,58 @@
     </style>
 
     <div>
+    <h2>Search Inspector</h2>
+    <div class="input-field">
+        <label for="txtInspectorID">Inspector ID:</label>
+        <asp:TextBox ID="TextBox1" runat="server"></asp:TextBox>
+    </div>
+    <div class="button-gap">
+        <asp:Button ID="Button1" runat="server" Text="Search" OnClick="btnSearch_Click" />
+    </div>
+</div>
+<div id="pnlInspectorInfo" runat="server" visible="false">
+    <h2>Inspector Information</h2>
+    <div>
+        <label>Inspector No:</label>
+        <asp:Label ID="lblInspectorNo" runat="server"></asp:Label>
+    </div>
+    <div>
+        <label>Inspector Name:</label>
+        <asp:Label ID="lblInspectorName" runat="server"></asp:Label>
+    </div>
+    <div>
+        <label>Email:</label>
+        <asp:Label ID="lblEmail" runat="server"></asp:Label>
+    </div>
+    <div>
+        <label>Mobile:</label>
+        <asp:Label ID="lblMobile" runat="server"></asp:Label>
+    </div>
+</div>
+<div>
+    <asp:Label ID="lblMessage" runat="server"></asp:Label>
+</div>
+
+    <div>
         <a href="Contents.aspx" class="back-button">
             <img src="backIcon.png" alt="Back" /> 
         </a>
     </div>
     
-    <div class="input-field">
-        <label for="txtInspectorCode">Inspector Code:</label>
-        <asp:TextBox ID="txtInspectorCode" runat="server"></asp:TextBox>
-        <asp:Button ID="btnSearch" runat="server" Text="Search" OnClick="btnSearch_Click" CssClass="save-button search-button" />
-    </div>
+  <div class="input-field">
+    <label for="txtInspectorID">Inspector ID:</label>
+    <asp:TextBox ID="txtInspectorID" runat="server"></asp:TextBox>
+    <asp:Button ID="btnSearch" runat="server" Text="Search" OnClick="btnSearch_Click" CssClass="save-button" />
+</div>
+<asp:GridView ID="gvInspectors" runat="server" AutoGenerateColumns="false">
+    <Columns>
+        <asp:BoundField DataField="InspectorNo" HeaderText="Inspector ID" />
+        <asp:BoundField DataField="InspectorName" HeaderText="Inspector Name" />
+        <asp:BoundField DataField="Email" HeaderText="Email" />
+        <asp:BoundField DataField="Mobile" HeaderText="Mobile" />
+    </Columns>
+</asp:GridView>
 
-    <div class="table-container">
-        <asp:GridView ID="gridInspectors" runat="server" AutoGenerateColumns="False" OnRowCommand="gridInspectors_RowCommand">
-            <Columns>
-                <asp:BoundField DataField="InspectorCode" HeaderText="Inspector Code" />
-                <asp:BoundField DataField="InspectorName" HeaderText="Inspector Name" />
-                <asp:BoundField DataField="InspectorEmail" HeaderText="Inspector Email" />
-                <asp:BoundField DataField="InspectorMobile" HeaderText="Inspector Mobile" />
-                <asp:TemplateField HeaderText="Actions">
-                    <ItemTemplate>
-                        <asp:Button ID="btnEdit" runat="server" Text="Edit" CommandName="EditInspector" CommandArgument='<%# Container.DataItemIndex %>' CssClass="save-button" />
-                        <asp:Button ID="btnDelete" runat="server" Text="Delete" CommandName="DeleteInspector" CommandArgument='<%# Container.DataItemIndex %>' CssClass="back-button" />
-                    </ItemTemplate>
-                </asp:TemplateField>
-            </Columns>
-        </asp:GridView>
-    </div>
 
     <div class="button-gap"></div>
 
@@ -142,4 +167,34 @@
     <div class="button-gap"></div>
 
     <asp:Button ID="btnViewAllInspectors" runat="server" Text="View All Inspectors" CssClass="save-button" OnClick="btnViewAllInspectors_Click" />
+
+    <!-- Search form -->
+<asp:TextBox ID="TextBox2" runat="server"></asp:TextBox>
+<asp:Button ID="Button2" runat="server" Text="Search" OnClick="btnSearch_Click" />
+
+<!-- Inspector information panel -->
+<asp:Panel ID="Panel1" runat="server" Visible="false">
+    <label>Inspector Number:</label>
+    <asp:Label ID="Label1" runat="server"></asp:Label><br />
+
+    <label>Inspector Name:</label>
+    <asp:Label ID="Label2" runat="server"></asp:Label><br />
+
+    <label>Email:</label>
+    <asp:Label ID="Label3" runat="server"></asp:Label><br />
+
+    <label>Mobile:</label>
+    <asp:Label ID="Label4" runat="server"></asp:Label><br />
+
+    <!-- Update button -->
+    <asp:Button ID="btnUpdate" runat="server" Text="Update" OnClick="btnUpdate_Click" Visible="false" />
+
+    <!-- Delete button -->
+    <asp:Button ID="btnDelete" runat="server" Text="Delete" OnClick="btnDelete_Click" Visible="false" />
+</asp:Panel>
+
+<!-- Error message label -->
+<asp:Label ID="Label5" runat="server"></asp:Label>
+
+
 </asp:Content>

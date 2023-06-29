@@ -1,34 +1,49 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
 using System.Web.UI.WebControls;
 
 namespace CLVD6211_POE_ST10144453_AnnemeHolzhausen_FINAL
 {
-    public partial class _Default : Page
+    public partial class _Default : System.Web.UI.Page
     {
         protected void btnLogin_Click(object sender, EventArgs e)
         {
-            string inspectorEmail = txtInspectorEmail.Text;
-            string inspectorID = txtInspectorID.Text;
+            string inspectorEmail = txtInspectorEmail.Text.Trim();
+            string inspectorID = txtInspectorID.Text.Trim();
 
-            // Perform your login authentication logic here
-            // You can check the entered email and ID against your database or any other authentication mechanism
-
-            // Example authentication logic (replace with your own):
-            if (inspectorEmail == "example@email.com" && inspectorID == "12345")
+            if (ValidateInspector(inspectorEmail, inspectorID))
             {
-                // Successful login
-                // Redirect the user to the home page or any other authenticated page
-                Response.Redirect("Contents.aspx");
+                // Login successful
+                Response.Redirect("Contents.aspx"); // Replace "Dashboard.aspx" with the desired page after successful login
             }
             else
             {
-                // Failed login
-                lblMessage.Text = "Invalid email or ID. Please try again.";
+                // Login failed
                 lblMessage.Visible = true;
+                lblMessage.Text = "Invalid login credentials";
+            }
+        }
+
+        private bool ValidateInspector(string email, string id)
+        {
+            string connectionString = ConfigurationManager.ConnectionStrings["YourConnectionString"].ConnectionString;
+            string query = "SELECT COUNT(*) FROM INSPECTOR WHERE Email = @Email AND InspectorNo = @InspectorNo";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Email", email);
+                    command.Parameters.AddWithValue("@InspectorNo", id);
+
+                    connection.Open();
+                    int count = (int)command.ExecuteScalar();
+                    connection.Close();
+
+                    return count > 0;
+                }
             }
         }
     }

@@ -97,9 +97,8 @@
         <asp:Button ID="btnSearch" runat="server" Text="Search" OnClick="btnSearch_Click" CssClass="save-button search-button" />
     </div>
 
-    <div class="table-container">
-        <asp:GridView ID="gridCars" runat="server" AutoGenerateColumns="False" OnRowCommand="gridCars_RowCommand">
-            <Columns>
+   <div class="table-container" runat="server" id="tableContainer">
+    <asp:GridView ID="gridCars" runat="server" AutoGenerateColumns="False" OnRowCommand="gridCars_RowCommand">
                 <asp:BoundField DataField="CarID" HeaderText="Car ID" />
                 <asp:BoundField DataField="CarMake" HeaderText="Car Make" />
                 <asp:BoundField DataField="CarModel" HeaderText="Car Model" />
@@ -110,7 +109,7 @@
                     </ItemTemplate>
                 </asp:TemplateField>
             </Columns>
-        </asp:GridView>
+           </asp:GridView>
     </div>
 
     <div class="button-gap"></div>
@@ -118,23 +117,47 @@
     <h2>Add New Car</h2>
 
     <div class="input-field">
-        <label for="txtNewCarMake">Car Make:</label>
-        <asp:TextBox ID="txtNewCarMake" runat="server"></asp:TextBox>
-    </div>
-    
-    <div class="input-field">
-        <label for="txtNewCarModel">Car Model:</label>
-        <asp:TextBox ID="txtNewCarModel" runat="server"></asp:TextBox>
-    </div>
+    <label for="txtNewCarMake">Car Make:</label>
+    <asp:TextBox ID="txtNewCarMake" runat="server"></asp:TextBox>
+</div>
+
+<div class="input-field">
+    <label for="txtNewCarModel">Car Model:</label>
+    <asp:TextBox ID="txtNewCarModel" runat="server"></asp:TextBox>
+</div>
+
+<div class="input-field">
+    <label for="txtNewCarID">Car ID:</label>
+    <asp:TextBox ID="txtNewCarID" runat="server"></asp:TextBox>
+</div>
+
+<asp:Button ID="btnSaveNewCar" runat="server" Text="Save" CssClass="save-button" OnClick="btnSaveNewCar_Click" />
+
+<div class="button-gap"></div>
+
+<asp:Button ID="btnViewAllCars" runat="server" Text="View All Cars" CssClass="save-button" OnClick="btnViewAllCars_Click" />
+
+   <div class="table-container" id="editContainer" style="display: none;">
+        <h2>Edit Car</h2>
 
     <div class="input-field">
-        <label for="txtNewCarID">Car ID:</label>
-        <asp:TextBox ID="TextBox1" runat="server"></asp:TextBox>
+        <label for="txtEditCarID">Car ID:</label>
+        <asp:TextBox ID="txtEditCarID" runat="server" Enabled="false"></asp:TextBox>
     </div>
-    
-    <asp:Button ID="btnSaveNewCar" runat="server" Text="Save" CssClass="save-button" OnClick="btnSaveNewCar_Click" />
 
-    <div class="button-gap"></div>
+    <div class="input-field">
+        <label for="txtEditCarMake">Car Make:</label>
+        <asp:TextBox ID="txtEditCarMake" runat="server"></asp:TextBox>
+    </div>
 
-    <asp:Button ID="btnViewAllCars" runat="server" Text="View All Cars" CssClass="save-button" OnClick="btnViewAllCars_Click" />
+    <div class="input-field">
+        <label for="txtEditCarModel">Car Model:</label>
+        <asp:TextBox ID="txtEditCarModel" runat="server"></asp:TextBox>
+    </div>
+
+    <asp:Button ID="btnSaveEditCar" runat="server" Text="Save" CssClass="save-button" OnClick="btnSaveEditCar_Click" />
+    <asp:Button ID="btnReturnToSearchResults" runat="server" Text="Return to Search Results" CssClass="save-button" OnClick="btnReturnToSearchResults_Click" />
+</div>
+
+
 </asp:Content>

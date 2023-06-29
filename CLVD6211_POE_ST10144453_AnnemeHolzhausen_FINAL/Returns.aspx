@@ -102,12 +102,25 @@
         <label for="txtReturnDate">Return Date:</label>
         <asp:TextBox ID="txtReturnDate" runat="server"></asp:TextBox>
         <asp:Calendar ID="calReturnDate" runat="server" OnSelectionChanged="calReturnDate_SelectionChanged" Visible="false"></asp:Calendar>
-        <asp:ImageButton ID="imgReturnDate" runat="server" ImageUrl="calendar_icon.png" CssClass ="calendar-icon" OnClientClick="return showCalendar('txtReturnDate');" />
+        <asp:ImageButton ID="imgReturnDate" runat="server" ImageUrl="calendar_icon.png" CssClass="calendar-icon" OnClientClick="return showCalendar('txtReturnDate');" />
     </div>
 
     <div class="button-gap">
         <asp:Button ID="btnSave" runat="server" Text="Save" CssClass="save-button" OnClick="btnSave_Click" />
     </div>
     <asp:Button ID="btnViewAllReturns" runat="server" Text="View All Returns" CssClass="save-button" OnClick="btnViewAllReturns_Click" />
+
+    <div>
+        <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="true"></asp:GridView>
+    </div>
+
+    <div>
+        <asp:Label ID="ReturnIDLabel" runat="server"></asp:Label>
+        <asp:Label ID="CarNoLabel" runat="server"></asp:Label>
+        <asp:Label ID="InspectorLabel" runat="server"></asp:Label>
+        <asp:Label ID="DriverLabel" runat="server"></asp:Label>
+        <asp:Label ID="ReturnDateLabel" runat="server"></asp:Label>
+        <asp:Label ID="StatusLabel" runat="server"></asp:Label>
+    </div>
 </asp:Content>
 

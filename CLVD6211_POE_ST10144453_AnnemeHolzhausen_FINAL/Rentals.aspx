@@ -1,6 +1,7 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Rentals.aspx.cs" Inherits="CLVD6211_POE_ST10144453_AnnemeHolzhausen_FINAL.Rentals" MasterPageFile="~/Site.Master" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
+
     <h1>Rentals</h1>
     <style>
         .back-button {
@@ -107,41 +108,60 @@
     </style>
 
     <div>
+        <!-- Back button -->
         <a href="Contents.aspx" class="back-button">
             <img src="backIcon.png" alt="Back" /> 
         </a>
     </div>
     
-   <div class="input-field">
+    <div class="input-field">
+        <!-- Rental ID search -->
         <label for="txtRentalID">Rental ID:</label>
         <asp:TextBox ID="txtRentalID" runat="server"></asp:TextBox>
         <asp:Button ID="btnSearch" runat="server" Text="Search" OnClick="btnSearch_Click" CssClass="save-button search-button" />
     </div>
 
     <div class="table-container">
-        <asp:GridView ID="gridRentals" runat="server" AutoGenerateColumns="False" OnRowCommand="gridRentals_RowCommand">
-            <Columns>
-                <asp:BoundField DataField="RentalID" HeaderText="Rental ID" />
-                <asp:BoundField DataField="CarNumber" HeaderText="Car Number" />
-                <asp:BoundField DataField="Inspector" HeaderText="Inspector" />
-                <asp:BoundField DataField="Driver" HeaderText="Driver" />
-                <asp:BoundField DataField="RentalFee" HeaderText="Rental Fee" />
-                <asp:BoundField DataField="StartDate" HeaderText="Start Date" />
-                <asp:BoundField DataField="EndDate" HeaderText="End Date" />
-                <asp:TemplateField HeaderText="Actions">
-                    <ItemTemplate>
-                        <asp:Button ID="btnEdit" runat="server" Text="Edit" CommandName="EditRental" CommandArgument='<%# Container.DataItemIndex %>' CssClass="save-button" />
-                        <asp:Button ID="btnDelete" runat="server" Text="Delete" CommandName="DeleteRental" CommandArgument='<%# Container.DataItemIndex %>' CssClass="back-button" />
-                    </ItemTemplate>
-                </asp:TemplateField>
-            </Columns>
-        </asp:GridView>
-    </div>
+        <!-- Rentals grid view -->
+     <asp:GridView ID="gvRentals" runat="server" AutoGenerateColumns="False">
+    <Columns>
+        <!-- Define columns for displaying rental data -->
+        <asp:BoundField DataField="RentalID" HeaderText="Rental ID" />
+        <asp:BoundField DataField="CarNumber" HeaderText="Car Number" />
+        <asp:BoundField DataField="Inspector" HeaderText="Inspector" />
+        <asp:BoundField DataField="Driver" HeaderText="Driver" />
+        <asp:BoundField DataField="RentalFee" HeaderText="Rental Fee" />
+        <asp:BoundField DataField="StartDate" HeaderText="Start Date" DataFormatString="{0:yyyy-MM-dd}" />
+        <asp:BoundField DataField="EndDate" HeaderText="End Date" DataFormatString="{0:yyyy-MM-dd}" />
+    </Columns>
+</asp:GridView>
+
+<!-- Add these labels to display rental details -->
+<label>Rental ID:</label>
+<asp:Label ID="lblRentalID" runat="server" Text=""></asp:Label>
+
+<label>Car Number:</label>
+<asp:Label ID="lblCarNumber" runat="server" Text=""></asp:Label>
+
+<label>Inspector:</label>
+<asp:Label ID="lblInspector" runat="server" Text=""></asp:Label>
+
+<label>Driver:</label>
+<asp:Label ID="lblDriver" runat="server" Text=""></asp:Label>
+
+<label>Rental Fee:</label>
+<asp:Label ID="lblRentalFee" runat="server" Text=""></asp:Label>
+
+<label>Start Date:</label>
+<asp:Label ID="lblStartDate" runat="server" Text=""></asp:Label>
+
+<label>End Date:</label>
+<asp:Label ID="lblEndDate" runat="server" Text=""></asp:Label>
+
 
     <div class="button-gap"></div>
 
-   <div class="button-gap"></div>
-
+    <!-- Add New Rental section -->
     <h2>Add New Rental</h2>
 
     <div class="input-field">
@@ -177,9 +197,13 @@
         <asp:ImageButton ID="ImageButton1" runat="server" ImageUrl="calendar_icon.png" OnClick="imgStartDate_Click" Width="25px" Height="25px" />
         <asp:Calendar ID="calEndDate" runat="server" OnSelectionChanged="calEndDate_SelectionChanged" Visible="False"></asp:Calendar>
     </div>
+    
+    <!-- Save button for creating a new rental -->
     <asp:Button ID="btnSave" runat="server" Text="Save" CssClass="save-button" OnClick="btnSave_Click" />
 
     <div class="button-gap"></div>
 
-    <asp:Button ID="btnViewAllRentals" runat="server" Text="View All Rentals" CssClass="save-button" OnClick="btnViewAllRentals_Click" />
+    <!-- View All Rentals button -->
+    <asp:Button ID="btnViewAllRentals" runat="server" Text="View All Rentals" CssClass="btn-view-all" OnClick="btnViewAllRentals_Click" />
+
 </asp:Content>

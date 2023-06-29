@@ -19,37 +19,129 @@ namespace CLVD6211_POE_ST10144453_AnnemeHolzhausen_FINAL
         {
             if (!IsPostBack)
             {
-                // Perform initial data binding or any other page load logic
+                BindReturns();
             }
         }
 
-        protected void btnSave_Click(object sender, EventArgs e)
+        protected void ViewAllReturnsButton_Click(object sender, EventArgs e)
         {
-            // Save button click logic goes here
+            ViewAllReturns();
         }
 
-        protected void imgReturnDate_Click(object sender, ImageClickEventArgs e)
+        protected void SearchReturnButton_Click(object sender, EventArgs e)
         {
-            calReturnDate.Visible = !calReturnDate.Visible;
+            int returnID = Convert.ToInt32(ReturnIDTextBox.Text);
+            SearchReturn(returnID);
         }
 
-        protected void calReturnDate_SelectionChanged(object sender, EventArgs e)
+        private void ViewAllReturns()
         {
-            txtReturnDate.Text = calReturnDate.SelectedDate.ToString("yyyy-MM-dd");
-            calReturnDate.Visible = false;
+            string connectionString = "your_connection_string_here";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string query = "SELECT * FROM Returns";
+
+                SqlCommand command = new SqlCommand(query, connection);
+
+                connection.Open();
+
+                SqlDataReader reader = command.ExecuteReader();
+
+                GridView1.DataSource = reader;
+                GridView1.DataBind();
+
+                reader.Close();
+            }
         }
 
-        protected void btnSearch_Click(object sender, EventArgs e)
+        private void SearchReturn(int returnID)
         {
-            string returnID = txtSearchReturnID.Text.Trim();
+            string connectionString = "your_connection_string_here";
 
-            // Perform search logic based on returnID
-            // Retrieve and display the matching return data
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string query = "SELECT * FROM Returns WHERE ReturnID = @ReturnID";
+
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@ReturnID", returnID);
+
+                connection.Open();
+
+                SqlDataReader reader = command.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    int carNo = Convert.ToInt32(reader["CarNo"]);
+                    string inspector = reader["Inspector"].ToString();
+                    string driver = reader["Driver"].ToString();
+                    DateTime returnDate = Convert.ToDateTime(reader["ReturnDate"]);
+                    int elapsedDate = Convert.ToInt32(reader["ElapsedDate"]);
+                    decimal fine = Convert.ToDecimal(reader["Fine"]);
+
+                    ReturnIDLabel.Text = "Return ID: " + returnID;
+                    CarNoLabel.Text = "Car No: " + carNo;
+                    InspectorLabel.Text = "Inspector: " + inspector;
+                    DriverLabel.Text = "Driver: " + driver;
+                    ReturnDateLabel.Text = "Return Date: " + returnDate;
+                    ElapsedDateLabel.Text = "Elapsed Date: " + elapsedDate;
+                    FineLabel.Text = "Fine: " + fine;
+                }
+                else
+                {
+                    ReturnIDLabel.Text = "Return not found.";
+                    CarNoLabel.Text = string.Empty;
+                    InspectorLabel.Text = string.Empty;
+                    DriverLabel.Text = string.Empty;
+                    ReturnDateLabel.Text = string.Empty;
+                    ElapsedDateLabel.Text = string.Empty;
+                    FineLabel.Text = string.Empty;
+                }
+
+                reader.Close();
+            }
         }
 
-        protected void btnViewAllReturns_Click(object sender, EventArgs e)
+
+        private void BindReturns()
         {
-            // Retrieve and display all returns data
+            string connectionString = ConfigurationManager.ConnectionStrings["YourConnectionString"].ConnectionString;
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand("SELECT * FROM RETURNCAR", con);
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+
+                gvReturns.DataSource = dt;
+                gvReturns.DataBind();
+            }
+        }
+
+        private void GetReturnByID(string returnId)
+        {
+            string connectionString = ConfigurationManager.ConnectionStrings["YourConnectionString"].ConnectionString;
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand("SELECT * FROM RETURNCAR WHERE ReturnID = @ReturnID", con);
+                cmd.Parameters.AddWithValue("@ReturnID", returnId);
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+
+                if (dt.Rows.Count > 0)
+                {
+                    gvReturns.DataSource = dt;
+                    gvReturns.DataBind();
+                }
+                else
+                {
+                    // No return found with the provided ID
+                    gvReturns.DataSource = null;
+                    gvReturns.DataBind();
+                    lblErrorMessage.Text = "No return found with the provided ID.";
+                }
+            }
         }
     }
 }

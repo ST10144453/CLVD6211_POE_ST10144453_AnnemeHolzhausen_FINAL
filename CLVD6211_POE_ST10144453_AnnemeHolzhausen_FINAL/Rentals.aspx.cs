@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -8,24 +10,31 @@ using System.Web.UI.WebControls;
 
 namespace CLVD6211_POE_ST10144453_AnnemeHolzhausen_FINAL
 {
+    public class Rental
+    {
+        public int RentalID { get; set; }
+        public string CarNumber { get; set; }
+        public string Inspector { get; set; }
+        public string Driver { get; set; }
+        public decimal RentalFee { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+        // Other properties...
+    }
     public partial class Rentals : System.Web.UI.Page
     {
-        private List<Rental> rentalList;
+        private string connectionString = ConfigurationManager.ConnectionStrings["YourConnectionString"].ConnectionString;
 
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
-                // Initialize rentalList and bind it to the GridView
-                rentalList = new List<Rental>();
-                BindRentalListToGridView();
+                BindRentals();
             }
         }
 
-        protected void btnSave_Click(object sender, EventArgs e)
+        protected void btnCreateRental_Click(object sender, EventArgs e)
         {
-            // Retrieve the input values
-            string rentalID = txtRentalID.Text;
             string carNumber = txtCarNumber.Text;
             string inspector = txtInspector.Text;
             string driver = txtDriver.Text;
@@ -33,183 +42,91 @@ namespace CLVD6211_POE_ST10144453_AnnemeHolzhausen_FINAL
             DateTime startDate = Convert.ToDateTime(txtStartDate.Text);
             DateTime endDate = Convert.ToDateTime(txtEndDate.Text);
 
-            // Create a new Rental object
-            Rental rental = new Rental(rentalID, carNumber, inspector, driver, rentalFee, startDate, endDate);
-
-            // Add the new rental to the rentalList
-            rentalList.Add(rental);
-
-            // Clear the input fields
-            ClearInputFields();
-
-            // Bind the updated rentalList to the GridView
-            BindRentalListToGridView();
-        }
-
-        protected void imgStartDate_Click(object sender, ImageClickEventArgs e)
-        {
-            calStartDate.Visible = !calStartDate.Visible;
-        }
-
-        protected void calStartDate_SelectionChanged(object sender, EventArgs e)
-        {
-            txtStartDate.Text = calStartDate.SelectedDate.ToString("yyyy-MM-dd");
-            calStartDate.Visible = false;
-        }
-
-        protected void imgEndDate_Click(object sender, ImageClickEventArgs e)
-        {
-            calEndDate.Visible = !calEndDate.Visible;
-        }
-
-        protected void calEndDate_SelectionChanged(object sender, EventArgs e)
-        {
-            txtEndDate.Text = calEndDate.SelectedDate.ToString("yyyy-MM-dd");
-            calEndDate.Visible = false;
-        }
-
-        protected void gridRentals_RowCommand(object sender, GridViewCommandEventArgs e)
-        {
-            if (e.CommandName == "EditRental")
+            // Insert the new rental into the database
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                int index = Convert.ToInt32(e.CommandArgument);
-                if (index >= 0 && index < rentalList.Count)
-                {
-                    // Retrieve the selected rental from the rentalList
-                    Rental rental = rentalList[index];
+                string query = "INSERT INTO Rentals (CarNumber, Inspector, Driver, RentalFee, StartDate, EndDate) " +
+                               "VALUES (@CarNumber, @Inspector, @Driver, @RentalFee, @StartDate, @EndDate)";
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@CarNumber", carNumber);
+                command.Parameters.AddWithValue("@Inspector", inspector);
+                command.Parameters.AddWithValue("@Driver", driver);
+                command.Parameters.AddWithValue("@RentalFee", rentalFee);
+                command.Parameters.AddWithValue("@StartDate", startDate);
+                command.Parameters.AddWithValue("@EndDate", endDate);
 
-                    // Populate the input fields with the selected rental details
-                    txtRentalID.Text = rental.RentalID;
-                    txtCarNumber.Text = rental.CarNumber;
-                    txtInspector.Text = rental.Inspector;
-                    txtDriver.Text = rental.Driver;
-                    txtRentalFee.Text = rental.RentalFee.ToString();
-                    txtStartDate.Text = rental.StartDate.ToString("yyyy-MM-dd");
-                    txtEndDate.Text = rental.EndDate.ToString("yyyy-MM-dd");
-                }
-            }
-            else if (e.CommandName == "DeleteRental")
-            {
-                int index = Convert.ToInt32(e.CommandArgument);
-                if (index >= 0 && index < rentalList.Count)
-                {
-                    // Remove the selected rental from the rentalList
-                    rentalList.RemoveAt(index);
-
-                    // Bind the updated rentalList to the GridView
-                    BindRentalListToGridView();
-                }
-            }
-        }
-
-        private void BindRentalListToGridView()
-        {
-            // Bind the rentalList to the GridView
-            gridRentals.DataSource = rentalList;
-            gridRentals.DataBind();
-
-            // Show/hide the GridView based on the presence of rentals
-            bool hasRentals = rentalList.Count > 0;
-            gridRentals.Visible = hasRentals;
-        }
-
-        private void ClearInputFields()
-        {
-            // Clear the input fields
-            txtRentalID.Text = string.Empty;
-            txtCarNumber.Text = string.Empty;
-            txtInspector.Text = string.Empty;
-            txtDriver.Text = string.Empty;
-            txtRentalFee.Text = string.Empty;
-            txtStartDate.Text = string.Empty;
-            txtEndDate.Text = string.Empty;
-        }
-        protected void btnSearch_Click(object sender, EventArgs e)
-        {
-            // Retrieve the rental ID from the textbox
-            string rentalID = txtRentalID.Text;
-
-            // Perform the necessary search logic using the rental ID
-            List<Rental> searchResults = PerformSearch(rentalID);
-
-            // Bind the search results to the gridview
-            BindRentalListToGridView(searchResults);
-        }
-
-        private List<Rental> PerformSearch(string rentalID)
-        {
-            // Perform the search logic using the rental ID
-            // Replace this with your actual search implementation
-            // and return the search results as a List<Rental>
-            List<Rental> searchResults = new List<Rental>();
-
-            // Example search logic: Filter the rentalList based on the rentalID
-            foreach (Rental rental in rentalList)
-            {
-                if (rental.RentalID == rentalID)
-                {
-                    searchResults.Add(rental);
-                }
+                connection.Open();
+                command.ExecuteNonQuery();
             }
 
-            return searchResults;
+            BindRentals(); // Refresh the rentals list after adding a new rental
         }
 
-        private void BindRentalListToGridView(List<Rental> rentals)
+        protected void btnGetRental_Click(object sender, EventArgs e)
         {
-            // Bind the rentalList to the GridView
-            gridRentals.DataSource = rentals;
-            gridRentals.DataBind();
+            int rentalID = Convert.ToInt32(txtRentalID.Text);
 
-            // Show/hide the GridView based on the presence of rentals
-            bool hasRentals = rentals.Count > 0;
-            gridRentals.Visible = hasRentals;
-        }
-        protected void btnViewAllRentals_Click(object sender, EventArgs e)
-        {
-            // Perform the necessary logic to retrieve all rentals
-            List<Rental> allRentals = GetAllRentals();
-
-            // Bind all rentals to the GridView
-            BindRentalListToGridView(allRentals);
-        }
-
-        private List<Rental> GetAllRentals()
-        {
-            // Retrieve all rentals from your data source
-            // Replace this with your actual implementation
-            // and return the list of all rentals as a List<Rental>
-            List<Rental> allRentals = new List<Rental>();
-
-            // Example implementation: Return the rentalList as all rentals
-            allRentals = rentalList;
-
-            return allRentals;
-        }
-
-
-
-
-
-        public class Rental
-        {
-            public string RentalID { get; set; }
-            public string CarNumber { get; set; }
-            public string Inspector { get; set; }
-            public string Driver { get; set; }
-            public decimal RentalFee { get; set; }
-            public DateTime StartDate { get; set; }
-            public DateTime EndDate { get; set; }
-
-            public Rental(string rentalID, string carNumber, string inspector, string driver, decimal rentalFee, DateTime startDate, DateTime endDate)
+            // Retrieve the rental by ID from the database
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                RentalID = rentalID;
-                CarNumber = carNumber;
-                Inspector = inspector;
-                Driver = driver;
-                RentalFee = rentalFee;
-                StartDate = startDate;
-                EndDate = endDate;
+                string query = "SELECT * FROM Rentals WHERE RentalID = @RentalID";
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@RentalID", rentalID);
+
+                SqlDataAdapter adapter = new SqlDataAdapter(command);
+                DataTable dtRental = new DataTable();
+
+                connection.Open();
+                adapter.Fill(dtRental);
+
+                if (dtRental.Rows.Count > 0)
+                {
+                    // Display the retrieved rental details
+                    Rental rental = new Rental
+                    {
+                        RentalID = Convert.ToInt32(dtRental.Rows[0]["RentalID"]),
+                        CarNumber = dtRental.Rows[0]["CarNumber"].ToString(),
+                        Inspector = dtRental.Rows[0]["Inspector"].ToString(),
+                        Driver = dtRental.Rows[0]["Driver"].ToString(),
+                        RentalFee = Convert.ToDecimal(dtRental.Rows[0]["RentalFee"]),
+                        StartDate = Convert.ToDateTime(dtRental.Rows[0]["StartDate"]),
+                        EndDate = Convert.ToDateTime(dtRental.Rows[0]["EndDate"])
+                    };
+
+                    // Show rental details on the page (e.g., in labels or text boxes)
+                    lblRentalID.Text = rental.RentalID.ToString();
+                    lblCarNumber.Text = rental.CarNumber;
+                    lblInspector.Text = rental.Inspector;
+                    lblDriver.Text = rental.Driver;
+                    lblRentalFee.Text = rental.RentalFee.ToString();
+                    lblStartDate.Text = rental.StartDate.ToString();
+                    lblEndDate.Text = rental.EndDate.ToString();
+                }
+                else
+                {
+                    // Rental with the specified ID was not found
+                    // Display an error message or perform appropriate action
+                }
+            }
+        }
+
+        private void BindRentals()
+        {
+            // Retrieve all rentals from the database
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string query = "SELECT * FROM Rentals";
+                SqlCommand command = new SqlCommand(query, connection);
+
+                SqlDataAdapter adapter = new SqlDataAdapter(command);
+                DataTable dtRentals = new DataTable();
+
+                connection.Open();
+                adapter.Fill(dtRentals);
+
+                // Display the rentals in a gridview or any other suitable UI control
+                gvRentals.DataSource = dtRentals;
+                gvRentals.DataBind();
             }
         }
     }

@@ -78,22 +78,48 @@
     }
 </style>
 
+    <asp:Label ID="lblDriverInfo" runat="server"></asp:Label>
+<asp:Label ID="lblMessage" runat="server"></asp:Label>
 
-    <div>
+<div>
     <a href="Contents.aspx" class="back-button">
         <img src="backIcon.png" alt="Back" /> 
     </a>
 </div>
 
+<!-- Search Input -->
 <div class="input-container">
     <label for="txtDriverID">Driver ID:</label>
-    <asp:TextBox ID="txtDriverID" runat="server"></asp:TextBox>
+    <input type="text" id="txtDriverID" runat="server" />
     <asp:Button ID="btnSearch" runat="server" Text="Search" OnClick="btnSearch_Click" CssClass="save-button" />
-    <asp:Button ID="btnViewAll" runat="server" Text="View All Drivers" OnClick="btnViewAll_Click" CssClass="save-button" />
+</div>
+
+<!-- Driver Information -->
+<div id="divDriverInfo" runat="server" class="grid-container">
+    <table>
+        <tr>
+            <th>Driver ID</th>
+            <th>Driver Name</th>
+            <th>Driver Address</th>
+            <th>Email</th>
+            <th>Mobile</th>
+        </tr>
+        <asp:Repeater ID="rptDriverInfo" runat="server">
+            <ItemTemplate>
+                <tr>
+                    <td><%# Eval("DriverID") %></td>
+                    <td><%# Eval("DriverName") %></td>
+                    <td><%# Eval("DriverAddress") %></td>
+                    <td><%# Eval("Email") %></td>
+                    <td><%# Eval("Mobile") %></td>
+                </tr>
+            </ItemTemplate>
+        </asp:Repeater>
+    </table>
 </div>
 
 <div class="grid-container">
-    <asp:GridView ID="gridDrivers" runat="server" AutoGenerateColumns="False" OnRowCommand="gridDrivers_RowCommand">
+    <asp:GridView ID="gridCars" runat="server" AutoGenerateColumns="False" CssClass="grid-view">
         <Columns>
             <asp:BoundField DataField="DriverID" HeaderText="Driver ID" />
             <asp:BoundField DataField="DriverName" HeaderText="Driver Name" />
@@ -108,6 +134,7 @@
             </asp:TemplateField>
         </Columns>
     </asp:GridView>
+    <asp:Label ID="lblNoResults" runat="server" Text="No results found." Visible="false"></asp:Label>
 </div>
 
 <div class="button-gap"></div>
@@ -141,7 +168,9 @@
 
 <div class="button-container">
     <asp:Button ID="btnSave" runat="server" Text="Save" OnClick="btnSave_Click" CssClass="save-button" />
+    <asp:Button ID="btnUpdate" runat="server" Text="Update" OnClick="btnUpdate_Click" CssClass="save-button" Visible="false" />
+    <asp:Button ID="btnDelete" runat="server" Text="Delete" OnClick="btnDelete_Click" CssClass="back-button" Visible="false" />
 </div>
-</asp:Content> 
+</asp:Content>
 
 
